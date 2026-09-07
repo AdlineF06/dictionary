@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Expense Tracker</title>
+<style>
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #fafafa; color: #1c1c1c; padding: 40px 20px;
+}
+.card { max-width: 520px; margin: 0 auto; background: #fff; border: 1px solid #e4e4e4; border-radius: 10px; padding: 28px 32px; }
+h1 { font-size: 1.5rem; margin: 0 0 4px 0; }
+.sub { color: #6b6b6b; font-size: 0.9rem; margin-bottom: 20px; }
+button { background: #e74c3c; color: #fff; border: none; padding: 9px 16px; border-radius: 6px; cursor: pointer; font-size: 0.95rem; }
+button:hover { filter: brightness(0.92); }
+input, textarea, select { padding: 8px 10px; border: 1px solid #d0d0d0; border-radius: 6px; font-size: 0.95rem; width: 100%; }
+.row { display: flex; gap: 8px; margin-bottom: 12px; }
+.list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border: 1px solid #ececec; border-radius: 6px; margin-bottom: 8px; }
+table { width: 100%; border-collapse: collapse; }
+td, th { padding: 8px; border-bottom: 1px solid #eee; text-align: left; }
+
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Expense Tracker</h1>
+  <div class="sub">Track your expenses and see the running total.</div>
+  <div class="row">
+    <input id="title" placeholder="Title">
+    <input id="amount" type="number" step="0.01" placeholder="Amount">
+    <button onclick="addExpense()">Add</button>
+  </div>
+  <table>
+    <thead><tr><th>#</th><th>Title</th><th>Amount</th><th></th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <p style="font-weight:700; margin-top:12px;">Total: <span id="total">0.00</span></p>
+</div>
+
+<script>
+
+let expenses = [];
+function render() {
+  const rows = document.getElementById("rows");
+  rows.innerHTML = "";
+  let total = 0;
+  expenses.forEach((e, i) => {
+    total += e.amount;
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${i+1}</td><td>${e.title}</td><td>${e.amount.toFixed(2)}</td>
+      <td><button onclick="deleteExpense(${i})" style="background:#c0392b;">Delete</button></td>`;
+    rows.appendChild(tr);
+  });
+  document.getElementById("total").textContent = total.toFixed(2);
+}
+function addExpense() {
+  const title = document.getElementById("title").value.trim();
+  const amount = parseFloat(document.getElementById("amount").value);
+  if (!title || isNaN(amount)) return;
+  expenses.push({ title, amount });
+  document.getElementById("title").value = "";
+  document.getElementById("amount").value = "";
+  render();
+}
+function deleteExpense(i) { expenses.splice(i, 1); render(); }
+render();
+
+</script>
+</body>
+</html>

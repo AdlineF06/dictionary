@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Currency Converter</title>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #fafafa;
+  color: #1c1c1c;
+  padding: 40px 20px;
+}
+.card {
+  max-width: 520px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  border-radius: 10px;
+  padding: 28px 32px;
+}
+h1 {
+  font-size: 1.5rem;
+  margin: 0 0 4px 0;
+}
+.sub {
+  color: #6b6b6b;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+button {
+  background: #1e8fa8;
+  color: #fff;
+  border: none;
+  padding: 9px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+button:hover { filter: brightness(0.92); }
+button:disabled { background: #ccc; cursor: not-allowed; }
+input, textarea, select {
+  padding: 8px 10px;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  width: 100%;
+}
+.row { display: flex; gap: 8px; margin-bottom: 12px; }
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid #ececec;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+.tag { font-size: 0.75rem; color: #888; }
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+const { useState } = React;
+
+const RATES = { USD: 1, INR: 83, EUR: 0.92, GBP: 0.79, JPY: 149 };
+
+function App() {
+  const [amount, setAmount] = useState("1");
+  const [from, setFrom] = useState("USD");
+  const [to, setTo] = useState("INR");
+
+  const amt = parseFloat(amount) || 0;
+  const converted = (amt / RATES[from]) * RATES[to];
+
+  return (
+    <div className="card">
+      <h1>Currency Converter</h1>
+      <div className="sub">Static sample rates (relative to USD) — swap in a live FX API for real-time rates.</div>
+      <div className="row">
+        <input type="number" value={amount} onChange={e => setAmount(e.target.value)} placeholder="Amount" />
+      </div>
+      <div className="row">
+        <select value={from} onChange={e => setFrom(e.target.value)}>
+          {Object.keys(RATES).map(c => <option key={c} value={c}>{c}</option>)}
+        </select>
+        <span style={{alignSelf:"center"}}>to</span>
+        <select value={to} onChange={e => setTo(e.target.value)}>
+          {Object.keys(RATES).map(c => <option key={c} value={c}>{c}</option>)}
+        </select>
+      </div>
+      <p style={{fontSize:"1.4rem", fontWeight:700}}>{amt.toFixed(2)} {from} = {converted.toFixed(2)} {to}</p>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+</script>
+</body>
+</html>

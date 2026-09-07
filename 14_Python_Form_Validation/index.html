@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login / Signup Form</title>
+<style>
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #fafafa; color: #1c1c1c; padding: 40px 20px;
+}
+.card { max-width: 520px; margin: 0 auto; background: #fff; border: 1px solid #e4e4e4; border-radius: 10px; padding: 28px 32px; }
+h1 { font-size: 1.5rem; margin: 0 0 4px 0; }
+.sub { color: #6b6b6b; font-size: 0.9rem; margin-bottom: 20px; }
+button { background: #2980b9; color: #fff; border: none; padding: 9px 16px; border-radius: 6px; cursor: pointer; font-size: 0.95rem; }
+button:hover { filter: brightness(0.92); }
+input, textarea, select { padding: 8px 10px; border: 1px solid #d0d0d0; border-radius: 6px; font-size: 0.95rem; width: 100%; }
+.row { display: flex; gap: 8px; margin-bottom: 12px; }
+.list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border: 1px solid #ececec; border-radius: 6px; margin-bottom: 8px; }
+table { width: 100%; border-collapse: collapse; }
+td, th { padding: 8px; border-bottom: 1px solid #eee; text-align: left; }
+
+.error { color: #c0392b; font-size: 0.85rem; margin: 4px 0 0 0; }
+.success { color: #27ae60; font-weight: 600; }
+label { font-size: 0.9rem; font-weight: 600; display: block; margin-bottom: 4px; }
+.field { margin-bottom: 14px; }
+
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Login / Signup Form</h1>
+  <div class="sub">Client-side validation demo.</div>
+  <div class="field">
+    <label>Username</label>
+    <input id="username" placeholder="At least 3 characters">
+    <div class="error" id="err-username"></div>
+  </div>
+  <div class="field">
+    <label>Email</label>
+    <input id="email" placeholder="you@example.com">
+    <div class="error" id="err-email"></div>
+  </div>
+  <div class="field">
+    <label>Password</label>
+    <input id="password" type="password" placeholder="At least 6 characters">
+    <div class="error" id="err-password"></div>
+  </div>
+  <button onclick="submitForm()">Submit</button>
+  <p id="success" class="success"></p>
+</div>
+
+<script>
+
+function submitForm() {
+  const username = document.getElementById("username").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  let ok = true;
+
+  const errU = document.getElementById("err-username");
+  const errE = document.getElementById("err-email");
+  const errP = document.getElementById("err-password");
+  errU.textContent = errE.textContent = errP.textContent = "";
+  document.getElementById("success").textContent = "";
+
+  if (username.length < 3) { errU.textContent = "Username must be at least 3 characters."; ok = false; }
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { errE.textContent = "Enter a valid email address."; ok = false; }
+  if (password.length < 6) { errP.textContent = "Password must be at least 6 characters."; ok = false; }
+
+  if (ok) document.getElementById("success").textContent = "Form submitted successfully!";
+}
+
+</script>
+</body>
+</html>

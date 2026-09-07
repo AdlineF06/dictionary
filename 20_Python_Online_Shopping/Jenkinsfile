@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+    stages {
+        stage(\'Build\') {
+            steps {
+                echo \'Building Online Shopping app...\'
+                sh \'python3 -m py_compile shopping.py\'
+            }
+        }
+        stage(\'Test\') {
+            steps {
+                echo \'Running tests (add pytest tests here)...\'
+            }
+        }
+        stage(\'Deploy\') {
+            steps {
+                echo \'Deploying application...\'
+            }
+        }
+    }
+    post {
+        success {
+            echo \'Deploy alert: Build succeeded and deployed!\'
+        }
+        failure {
+            echo \'Deploy alert: Build failed!\'
+        }
+    }
+}

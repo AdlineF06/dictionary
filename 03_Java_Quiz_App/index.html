@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quiz App</title>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #fafafa;
+  color: #1c1c1c;
+  padding: 40px 20px;
+}
+.card {
+  max-width: 520px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  border-radius: 10px;
+  padding: 28px 32px;
+}
+h1 {
+  font-size: 1.5rem;
+  margin: 0 0 4px 0;
+}
+.sub {
+  color: #6b6b6b;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+button {
+  background: #9b51e0;
+  color: #fff;
+  border: none;
+  padding: 9px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+button:hover { filter: brightness(0.92); }
+button:disabled { background: #ccc; cursor: not-allowed; }
+input, textarea, select {
+  padding: 8px 10px;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  width: 100%;
+}
+.row { display: flex; gap: 8px; margin-bottom: 12px; }
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid #ececec;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+.tag { font-size: 0.75rem; color: #888; }
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+const { useState } = React;
+
+const QUESTIONS = [
+  { q: "What is the capital of France?", options: ["Berlin","Paris","Rome","Madrid"], answer: 1 },
+  { q: "Which language runs in a web browser?", options: ["Java","C++","JavaScript","Python"], answer: 2 },
+  { q: "What does CPU stand for?", options: ["Central Processing Unit","Central Process Unit","Computer Personal Unit","None"], answer: 0 },
+  { q: "What is 5 + 7?", options: ["10","11","12","13"], answer: 2 },
+  { q: "Which planet is known as the Red Planet?", options: ["Earth","Venus","Mars","Jupiter"], answer: 2 },
+];
+
+function App() {
+  const [i, setI] = useState(0);
+  const [score, setScore] = useState(0);
+  const [selected, setSelected] = useState(null);
+  const [done, setDone] = useState(false);
+
+  function choose(idx) {
+    if (selected !== null) return;
+    setSelected(idx);
+    if (idx === QUESTIONS[i].answer) setScore(s => s + 1);
+  }
+
+  function next() {
+    if (i + 1 < QUESTIONS.length) {
+      setI(i + 1);
+      setSelected(null);
+    } else {
+      setDone(true);
+    }
+  }
+
+  function restart() {
+    setI(0); setScore(0); setSelected(null); setDone(false);
+  }
+
+  if (done) {
+    return (
+      <div className="card">
+        <h1>Quiz Complete</h1>
+        <div className="sub">Your score: {score} / {QUESTIONS.length}</div>
+        <button onClick={restart}>Restart</button>
+      </div>
+    );
+  }
+
+  const current = QUESTIONS[i];
+  return (
+    <div className="card">
+      <h1>Quiz App</h1>
+      <div className="sub">Question {i + 1} of {QUESTIONS.length}</div>
+      <p style={{fontWeight:600}}>{current.q}</p>
+      {current.options.map((opt, idx) => {
+        let bg = "#fff", color="#1c1c1c", border = "1px solid #d0d0d0";
+        if (selected !== null) {
+          if (idx === current.answer) { bg = "#d4edda"; border="1px solid #4caf50"; }
+          else if (idx === selected) { bg = "#f8d7da"; border="1px solid #e74c3c"; }
+        }
+        return (
+          <div key={idx} onClick={() => choose(idx)}
+               style={{padding:"10px 12px", marginBottom:"8px", borderRadius:"6px",
+                        cursor: selected===null ? "pointer":"default", background:bg, border, color}}>
+            {opt}
+          </div>
+        );
+      })}
+      {selected !== null && <button onClick={next}>{i + 1 < QUESTIONS.length ? "Next" : "See Score"}</button>}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+</script>
+</body>
+</html>

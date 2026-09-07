@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Counter App</title>
+<style>
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #fafafa; color: #1c1c1c; padding: 40px 20px;
+}
+.card { max-width: 520px; margin: 0 auto; background: #fff; border: 1px solid #e4e4e4; border-radius: 10px; padding: 28px 32px; }
+h1 { font-size: 1.5rem; margin: 0 0 4px 0; }
+.sub { color: #6b6b6b; font-size: 0.9rem; margin-bottom: 20px; }
+button { background: #34495e; color: #fff; border: none; padding: 9px 16px; border-radius: 6px; cursor: pointer; font-size: 0.95rem; }
+button:hover { filter: brightness(0.92); }
+input, textarea, select { padding: 8px 10px; border: 1px solid #d0d0d0; border-radius: 6px; font-size: 0.95rem; width: 100%; }
+.row { display: flex; gap: 8px; margin-bottom: 12px; }
+.list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border: 1px solid #ececec; border-radius: 6px; margin-bottom: 8px; }
+table { width: 100%; border-collapse: collapse; }
+td, th { padding: 8px; border-bottom: 1px solid #eee; text-align: left; }
+
+</style>
+</head>
+<body>
+
+<div class="card" style="max-width:280px; text-align:center;">
+  <h1>Counter App</h1>
+  <div class="sub">Increment or decrement the counter.</div>
+  <p id="count" style="font-size:3rem; font-weight:700; margin:16px 0;">0</p>
+  <div class="row" style="justify-content:center;">
+    <button onclick="change(-1)" style="background:#c0392b;">-</button>
+    <button onclick="change(1)" style="background:#27ae60;">+</button>
+  </div>
+</div>
+
+<script>
+
+let count = 0;
+function change(delta) {
+  count += delta;
+  document.getElementById("count").textContent = count;
+}
+
+</script>
+</body>
+</html>

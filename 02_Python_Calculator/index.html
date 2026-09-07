@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Calculator</title>
+<style>
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #fafafa; color: #1c1c1c; padding: 40px 20px;
+}
+.card { max-width: 520px; margin: 0 auto; background: #fff; border: 1px solid #e4e4e4; border-radius: 10px; padding: 28px 32px; }
+h1 { font-size: 1.5rem; margin: 0 0 4px 0; }
+.sub { color: #6b6b6b; font-size: 0.9rem; margin-bottom: 20px; }
+button { background: #3f6fd6; color: #fff; border: none; padding: 9px 16px; border-radius: 6px; cursor: pointer; font-size: 0.95rem; }
+button:hover { filter: brightness(0.92); }
+input, textarea, select { padding: 8px 10px; border: 1px solid #d0d0d0; border-radius: 6px; font-size: 0.95rem; width: 100%; }
+.row { display: flex; gap: 8px; margin-bottom: 12px; }
+.list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border: 1px solid #ececec; border-radius: 6px; margin-bottom: 8px; }
+table { width: 100%; border-collapse: collapse; }
+td, th { padding: 8px; border-bottom: 1px solid #eee; text-align: left; }
+
+</style>
+</head>
+<body>
+
+<div class="card" style="max-width:320px;">
+  <h1>Calculator</h1>
+  <div class="sub">Basic arithmetic calculator.</div>
+  <input id="display" readonly style="text-align:right; font-size:1.4rem; margin-bottom:12px;" value="0">
+  <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:8px;">
+    <button onclick="clearAll()" style="background:#c0392b;">C</button>
+    <button onclick="deleteLast()" style="background:#888;">DEL</button>
+    <button onclick="appendOp('/')" style="background:#e67e22;">/</button>
+    <button onclick="appendOp('*')" style="background:#e67e22;">*</button>
+    <button onclick="appendNum('7')">7</button><button onclick="appendNum('8')">8</button>
+    <button onclick="appendNum('9')">9</button><button onclick="appendOp('-')" style="background:#e67e22;">-</button>
+    <button onclick="appendNum('4')">4</button><button onclick="appendNum('5')">5</button>
+    <button onclick="appendNum('6')">6</button><button onclick="appendOp('+')" style="background:#e67e22;">+</button>
+    <button onclick="appendNum('1')">1</button><button onclick="appendNum('2')">2</button>
+    <button onclick="appendNum('3')">3</button><button onclick="calculate()" style="background:#27ae60; grid-row: span 2;">=</button>
+    <button onclick="appendNum('0')" style="grid-column: span 2;">0</button>
+    <button onclick="appendNum('.')">.</button>
+  </div>
+</div>
+
+<script>
+
+let expr = "";
+function updateDisplay() { document.getElementById("display").value = expr || "0"; }
+function appendNum(n) { expr += n; updateDisplay(); }
+function appendOp(op) { if (expr === "" && op !== "-") return; expr += op; updateDisplay(); }
+function clearAll() { expr = ""; updateDisplay(); }
+function deleteLast() { expr = expr.slice(0, -1); updateDisplay(); }
+function calculate() {
+  try {
+    if (/[^0-9+\-*/.]/.test(expr)) throw "invalid";
+    const result = Function('"use strict"; return (' + expr + ')')();
+    expr = String(result);
+    updateDisplay();
+  } catch (e) {
+    document.getElementById("display").value = "Error";
+    expr = "";
+  }
+}
+updateDisplay();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Age Calculator</title>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #fafafa;
+  color: #1c1c1c;
+  padding: 40px 20px;
+}
+.card {
+  max-width: 520px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  border-radius: 10px;
+  padding: 28px 32px;
+}
+h1 {
+  font-size: 1.5rem;
+  margin: 0 0 4px 0;
+}
+.sub {
+  color: #6b6b6b;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+button {
+  background: #d68910;
+  color: #fff;
+  border: none;
+  padding: 9px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+button:hover { filter: brightness(0.92); }
+button:disabled { background: #ccc; cursor: not-allowed; }
+input, textarea, select {
+  padding: 8px 10px;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  width: 100%;
+}
+.row { display: flex; gap: 8px; margin-bottom: 12px; }
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid #ececec;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+.tag { font-size: 0.75rem; color: #888; }
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+const { useState } = React;
+
+function App() {
+  const [year, setYear] = useState("");
+  const [age, setAge] = useState(null);
+  const [error, setError] = useState(null);
+
+  function calculate() {
+    const y = parseInt(year);
+    const currentYear = new Date().getFullYear();
+    if (isNaN(y) || y > currentYear || y < 1900) {
+      setError("Please enter a valid birth year.");
+      setAge(null);
+      return;
+    }
+    setError(null);
+    setAge(currentYear - y);
+  }
+
+  return (
+    <div className="card">
+      <h1>Calculate Age From Birth Year</h1>
+      <div className="sub">Enter your birth year to estimate your age.</div>
+      <div className="row">
+        <input type="number" value={year} onChange={e => setYear(e.target.value)} placeholder="e.g. 2000"
+               onKeyDown={e => e.key === "Enter" && calculate()} />
+        <button onClick={calculate}>Calculate</button>
+      </div>
+      {error && <div style={{color:"#c0392b"}}>{error}</div>}
+      {age !== null && <p style={{fontSize:"1.4rem", fontWeight:700}}>Your age is approximately: {age} years</p>}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+</script>
+</body>
+</html>

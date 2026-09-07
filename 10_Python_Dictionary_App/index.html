@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dictionary App</title>
+<style>
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #fafafa; color: #1c1c1c; padding: 40px 20px;
+}
+.card { max-width: 520px; margin: 0 auto; background: #fff; border: 1px solid #e4e4e4; border-radius: 10px; padding: 28px 32px; }
+h1 { font-size: 1.5rem; margin: 0 0 4px 0; }
+.sub { color: #6b6b6b; font-size: 0.9rem; margin-bottom: 20px; }
+button { background: #8e44ad; color: #fff; border: none; padding: 9px 16px; border-radius: 6px; cursor: pointer; font-size: 0.95rem; }
+button:hover { filter: brightness(0.92); }
+input, textarea, select { padding: 8px 10px; border: 1px solid #d0d0d0; border-radius: 6px; font-size: 0.95rem; width: 100%; }
+.row { display: flex; gap: 8px; margin-bottom: 12px; }
+.list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border: 1px solid #ececec; border-radius: 6px; margin-bottom: 8px; }
+table { width: 100%; border-collapse: collapse; }
+td, th { padding: 8px; border-bottom: 1px solid #eee; text-align: left; }
+
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Dictionary App</h1>
+  <div class="sub">Local sample dictionary — swap in a real Dictionary API (e.g. dictionaryapi.dev) for live lookups.</div>
+  <div class="row">
+    <input id="word" placeholder="Enter a word..." onkeydown="if(event.key==='Enter') search()">
+    <button onclick="search()">Search</button>
+  </div>
+  <p id="result"></p>
+</div>
+
+<script>
+
+const dict = {
+  python: "A high-level, interpreted programming language known for readability.",
+  java: "A widely-used object-oriented programming language.",
+  algorithm: "A step-by-step procedure for solving a problem.",
+  variable: "A named storage location for a value in a program.",
+  function: "A reusable block of code that performs a specific task.",
+};
+function search() {
+  const word = document.getElementById("word").value.trim().toLowerCase();
+  const result = document.getElementById("result");
+  if (!word) return;
+  result.textContent = dict[word] || "Word not found in local dictionary.";
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Online Shopping</title>
+<style>
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #fafafa; color: #1c1c1c; padding: 40px 20px;
+}
+.card { max-width: 520px; margin: 0 auto; background: #fff; border: 1px solid #e4e4e4; border-radius: 10px; padding: 28px 32px; }
+h1 { font-size: 1.5rem; margin: 0 0 4px 0; }
+.sub { color: #6b6b6b; font-size: 0.9rem; margin-bottom: 20px; }
+button { background: #e67e22; color: #fff; border: none; padding: 9px 16px; border-radius: 6px; cursor: pointer; font-size: 0.95rem; }
+button:hover { filter: brightness(0.92); }
+input, textarea, select { padding: 8px 10px; border: 1px solid #d0d0d0; border-radius: 6px; font-size: 0.95rem; width: 100%; }
+.row { display: flex; gap: 8px; margin-bottom: 12px; }
+.list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border: 1px solid #ececec; border-radius: 6px; margin-bottom: 8px; }
+table { width: 100%; border-collapse: collapse; }
+td, th { padding: 8px; border-bottom: 1px solid #eee; text-align: left; }
+
+.product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 16px 0; }
+.product { border: 1px solid #eee; border-radius: 6px; padding: 12px; text-align: center; }
+.product button { margin-top: 8px; width: 100%; }
+
+</style>
+</head>
+<body>
+
+<div class="card" style="max-width:600px;">
+  <h1>Online Shopping</h1>
+  <div class="sub">Browse products, add to cart, and check out.</div>
+  <div class="product-grid" id="products"></div>
+  <hr style="border:none; border-top:1px solid #eee; margin:16px 0;">
+  <h1 style="font-size:1.1rem;">Cart</h1>
+  <div id="cart"></div>
+  <p style="font-weight:700;">Total: <span id="total">0</span></p>
+  <button onclick="checkout()" style="background:#27ae60;">Checkout</button>
+  <p id="orderMsg" style="color:#27ae60; font-weight:600;"></p>
+</div>
+
+<script>
+
+const products = [
+  { id: 1, name: "Laptop", price: 55000 },
+  { id: 2, name: "Headphones", price: 1500 },
+  { id: 3, name: "Keyboard", price: 800 },
+  { id: 4, name: "Mouse", price: 500 },
+];
+let cart = [];
+
+function renderProducts() {
+  const el = document.getElementById("products");
+  el.innerHTML = "";
+  products.forEach(p => {
+    const div = document.createElement("div");
+    div.className = "product";
+    div.innerHTML = `<div style="font-weight:600;">${p.name}</div><div>Rs. ${p.price}</div>
+      <button onclick="addToCart(${p.id})">Add to Cart</button>`;
+    el.appendChild(div);
+  });
+}
+
+function addToCart(id) {
+  const p = products.find(x => x.id === id);
+  cart.push(p);
+  renderCart();
+}
+
+function renderCart() {
+  const el = document.getElementById("cart");
+  el.innerHTML = "";
+  let total = 0;
+  cart.forEach((item, i) => {
+    total += item.price;
+    const div = document.createElement("div");
+    div.className = "list-item";
+    div.innerHTML = `<span>${item.name} - Rs. ${item.price}</span>
+      <button onclick="removeFromCart(${i})" style="background:#c0392b;">Remove</button>`;
+    el.appendChild(div);
+  });
+  document.getElementById("total").textContent = total;
+}
+
+function removeFromCart(i) {
+  cart.splice(i, 1);
+  renderCart();
+}
+
+function checkout() {
+  const msg = document.getElementById("orderMsg");
+  if (cart.length === 0) {
+    msg.style.color = "#c0392b";
+    msg.textContent = "Cart is empty. Add items before checkout.";
+    return;
+  }
+  msg.style.color = "#27ae60";
+  msg.textContent = "Order placed successfully! (Deploy alert sent via Jenkins pipeline.)";
+  cart = [];
+  renderCart();
+}
+
+renderProducts();
+renderCart();
+
+</script>
+</body>
+</html>

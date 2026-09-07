@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Recipe Finder</title>
+<style>
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #fafafa; color: #1c1c1c; padding: 40px 20px;
+}
+.card { max-width: 520px; margin: 0 auto; background: #fff; border: 1px solid #e4e4e4; border-radius: 10px; padding: 28px 32px; }
+h1 { font-size: 1.5rem; margin: 0 0 4px 0; }
+.sub { color: #6b6b6b; font-size: 0.9rem; margin-bottom: 20px; }
+button { background: #d35400; color: #fff; border: none; padding: 9px 16px; border-radius: 6px; cursor: pointer; font-size: 0.95rem; }
+button:hover { filter: brightness(0.92); }
+input, textarea, select { padding: 8px 10px; border: 1px solid #d0d0d0; border-radius: 6px; font-size: 0.95rem; width: 100%; }
+.row { display: flex; gap: 8px; margin-bottom: 12px; }
+.list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border: 1px solid #ececec; border-radius: 6px; margin-bottom: 8px; }
+table { width: 100%; border-collapse: collapse; }
+td, th { padding: 8px; border-bottom: 1px solid #eee; text-align: left; }
+
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Recipe Finder</h1>
+  <div class="sub">Search a small local recipe collection: pasta, omelette, salad.</div>
+  <div class="row">
+    <input id="query" placeholder="Search a recipe..." onkeydown="if(event.key==='Enter') search()">
+    <button onclick="search()">Search</button>
+  </div>
+  <div id="result"></div>
+</div>
+
+<script>
+
+const recipes = {
+  pasta: { ingredients: ["pasta","tomato sauce","garlic","olive oil","basil"],
+           steps: "Boil pasta. Saute garlic in olive oil, add tomato sauce, simmer, mix with pasta, garnish with basil." },
+  omelette: { ingredients: ["eggs","salt","pepper","butter"],
+              steps: "Whisk eggs with salt and pepper. Cook in buttered pan until set. Fold and serve." },
+  salad: { ingredients: ["lettuce","tomato","cucumber","olive oil","lemon"],
+           steps: "Chop vegetables, toss with olive oil and lemon juice, season to taste." },
+};
+function search() {
+  const q = document.getElementById("query").value.trim().toLowerCase();
+  const result = document.getElementById("result");
+  const r = recipes[q];
+  if (!r) { result.innerHTML = "<p>Recipe not found in local database.</p>"; return; }
+  result.innerHTML = `<p><b>Ingredients:</b> ${r.ingredients.join(", ")}</p><p><b>Steps:</b> ${r.steps}</p>`;
+}
+
+</script>
+</body>
+</html>

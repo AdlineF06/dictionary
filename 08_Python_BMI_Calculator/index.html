@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BMI Calculator</title>
+<style>
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #fafafa; color: #1c1c1c; padding: 40px 20px;
+}
+.card { max-width: 520px; margin: 0 auto; background: #fff; border: 1px solid #e4e4e4; border-radius: 10px; padding: 28px 32px; }
+h1 { font-size: 1.5rem; margin: 0 0 4px 0; }
+.sub { color: #6b6b6b; font-size: 0.9rem; margin-bottom: 20px; }
+button { background: #27ae60; color: #fff; border: none; padding: 9px 16px; border-radius: 6px; cursor: pointer; font-size: 0.95rem; }
+button:hover { filter: brightness(0.92); }
+input, textarea, select { padding: 8px 10px; border: 1px solid #d0d0d0; border-radius: 6px; font-size: 0.95rem; width: 100%; }
+.row { display: flex; gap: 8px; margin-bottom: 12px; }
+.list-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border: 1px solid #ececec; border-radius: 6px; margin-bottom: 8px; }
+table { width: 100%; border-collapse: collapse; }
+td, th { padding: 8px; border-bottom: 1px solid #eee; text-align: left; }
+
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>BMI Calculator</h1>
+  <div class="sub">Enter your weight and height to calculate your BMI.</div>
+  <div class="row">
+    <input id="weight" type="number" placeholder="Weight (kg)">
+    <input id="height" type="number" placeholder="Height (m)">
+  </div>
+  <button onclick="calc()">Calculate</button>
+  <p id="result" style="font-weight:700; font-size:1.2rem; margin-top:16px;"></p>
+</div>
+
+<script>
+
+function calc() {
+  const w = parseFloat(document.getElementById("weight").value);
+  const h = parseFloat(document.getElementById("height").value);
+  const resultEl = document.getElementById("result");
+  if (isNaN(w) || isNaN(h) || w <= 0 || h <= 0) {
+    resultEl.style.color = "#c0392b";
+    resultEl.textContent = "Please enter valid positive numbers.";
+    return;
+  }
+  const bmi = w / (h * h);
+  let category;
+  if (bmi < 18.5) category = "Underweight";
+  else if (bmi < 25) category = "Normal weight";
+  else if (bmi < 30) category = "Overweight";
+  else category = "Obese";
+  resultEl.style.color = "#1c1c1c";
+  resultEl.textContent = `Your BMI is ${bmi.toFixed(2)} (${category})`;
+}
+
+</script>
+</body>
+</html>

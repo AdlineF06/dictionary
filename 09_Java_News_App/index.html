@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>News Feed</title>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #fafafa;
+  color: #1c1c1c;
+  padding: 40px 20px;
+}
+.card {
+  max-width: 520px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #e4e4e4;
+  border-radius: 10px;
+  padding: 28px 32px;
+}
+h1 {
+  font-size: 1.5rem;
+  margin: 0 0 4px 0;
+}
+.sub {
+  color: #6b6b6b;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+button {
+  background: #c0392b;
+  color: #fff;
+  border: none;
+  padding: 9px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+button:hover { filter: brightness(0.92); }
+button:disabled { background: #ccc; cursor: not-allowed; }
+input, textarea, select {
+  padding: 8px 10px;
+  border: 1px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  width: 100%;
+}
+.row { display: flex; gap: 8px; margin-bottom: 12px; }
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid #ececec;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+.tag { font-size: 0.75rem; color: #888; }
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+const { useState } = React;
+
+const ARTICLES = [
+  { title: "Local Team Wins Championship", summary: "The city celebrates a historic sports victory." },
+  { title: "New Tech Breakthrough Announced", summary: "Researchers unveil a major innovation in AI." },
+  { title: "Markets Rally After Policy Update", summary: "Stock markets respond positively to new economic policy." },
+  { title: "Weather Alert Issued", summary: "Authorities warn of heavy rainfall in the region." },
+  { title: "New Movie Tops Box Office", summary: "The latest blockbuster breaks opening weekend records." },
+];
+
+function App() {
+  return (
+    <div className="card" style={{maxWidth:"600px"}}>
+      <h1>News Feed</h1>
+      <div className="sub">Sample offline articles. Swap in a real News API (e.g. NewsAPI.org) by fetching JSON and mapping it here.</div>
+      {ARTICLES.map((a, i) => (
+        <div key={i} style={{padding:"14px 0", borderBottom: i < ARTICLES.length-1 ? "1px solid #eee" : "none"}}>
+          <div style={{fontWeight:700, marginBottom:"4px"}}>{a.title}</div>
+          <div style={{color:"#555", fontSize:"0.92rem"}}>{a.summary}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+</script>
+</body>
+</html>
