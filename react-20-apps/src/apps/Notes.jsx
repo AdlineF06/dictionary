@@ -1,0 +1,5 @@
+import {useState} from 'react';import useLS from '../useLS'
+export default function Notes(){const [n,setN]=useLS('notes',[]);const [t,setT]=useState(''),[d,setD]=useState(''),[e,setE]=useState(null),[q,setQ]=useState('')
+const save=()=>{if(!t.trim())return;setN(e?n.map(o=>o.id===e?{...o,t,d}:o):[...n,{id:Date.now(),t,d}]);setT('');setD('');setE(null)}
+return <div className="card"><h2>Notes App</h2><input placeholder="Search notes" value={q} onChange={x=>setQ(x.target.value)}/><input placeholder="Title" value={t} onChange={x=>setT(x.target.value)}/><textarea placeholder="Description" value={d} onChange={x=>setD(x.target.value)}/><button onClick={save}>{e?'Update':'Save'} Note</button>
+{n.filter(o=>(o.t+o.d).toLowerCase().includes(q.toLowerCase())).map(o=><div className="row" key={o.id}><div><b>{o.t}</b><div>{o.d}</div></div><div><button onClick={()=>{setE(o.id);setT(o.t);setD(o.d)}}>Edit</button><button className="red" onClick={()=>setN(n.filter(x=>x.id!==o.id))}>Delete</button></div></div>)}</div>}
